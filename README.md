@@ -1,1 +1,1 @@
-# c-befunge-int
+# C Befunge Interpreter
