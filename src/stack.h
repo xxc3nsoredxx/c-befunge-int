@@ -6,7 +6,7 @@ typedef enum bool_e {
 } bool;
 
 typedef struct stack_s {
-    char instruction;
+    char value;
     struct stack_s *next;
 } stack_t;
 
