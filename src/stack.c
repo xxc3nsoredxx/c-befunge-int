@@ -4,45 +4,52 @@
 #include <stdlib.h>
 #include "stack.h"
 
-#define EMPTY_ENTRY ((stack_t*) malloc (sizeof (stack_t)))
-
 // Initialize a stack
 stack_t* init () {
-    stack_t *ret = EMPTY_ENTRY;
-    ret->value = -1;
-    ret->next = 0;
+    stack_t *ret = (stack_t*) malloc (sizeof (stack_t));
+
+    ret->top = 0;
+    ret->bottom = 0;
 
     return ret;
 }
 
 // Push value onto stack
 bool push (stack_t *s, const char value) {
-    if (s->next == 0) {
-        s->value = value;
-        s->next = s;
+    stack_entry_t *temp = (stack_entry_t*) malloc (sizeof (stack_entry_t));
+    
+    if (s->top == 0) {
+        temp->value = value;
+        temp->next = 0;
+        s->top = temp;
+        s->bottom = temp;
+
         return true;
     }
 
-    stack_t *new_s = EMPTY_ENTRY;
-    new_s->value = value;
-    new_s->next = s;
-    s = new_s;
+    temp->value = value;
+    temp->next = s->top;
+    s->top = temp;
 
     return true;
 }
 
+
+// FIX---------------------------------------
+
 // Pop value from stack
+// Returns 0 if popping an empty stack
 char pop (stack_t *s) {
-    char ret = s->value;
+    char ret = s->top->value;
     
     // If the current top of the stack is the only member, reset values
     // Else set the top of the stack to the next one and free the old top
-    if (s->next == s) {
-        s->value = -1;
-        s->next = 0;
-    } else {
-        stack_t *del = s;
-        s = s->next;
+    if (s->top == s->bottom && s->top != 0) {
+        s->top->value = 0;
+        s->top->next = 0;
+    } else if (s->top != 0) {
+        stack_entry_t *del = s->top;
+        s->top = s->top->next;
         free (del);
     }
 
@@ -51,7 +58,7 @@ char pop (stack_t *s) {
 
 // Flush the stack
 bool clear (stack_t *s) {
-    while (s->next != 0) {
+    while (s->top->next != 0) {
         pop (s);
     }
 

@@ -5,9 +5,14 @@ typedef enum bool_e {
     true, false
 } bool;
 
-typedef struct stack_s {
+typedef struct stack_entry_s {
     char value;
-    struct stack_s *next;
+    struct stack_entry_s *next;
+} stack_entry_t;
+
+typedef struct stack_s {
+    stack_entry_t *top;
+    stack_entry_t *bottom;
 } stack_t;
 
 stack_t* init ();

@@ -7,7 +7,7 @@
 #include "stack.h"
 
 #define MAKE_PRINT(X) X = (X < 0x20) ? 0x20 : X
-#define NUM(X) ((X <= 0x39) ? X - 0x30 : 10 + X - 0x61)
+#define NUM(X) (((X) <= 0x39) ? (X) - 0x30 : 10 + (X) - 0x61)
 
 typedef enum delta_e {
     LEFT, RIGHT, UP, DOWN
@@ -15,7 +15,13 @@ typedef enum delta_e {
 
 int parse_command (char command, stack_t *stack, delta_t *delta) {
     (void) delta;
+    int a = 0;
     switch (command) {
+        case '+':
+            a += pop (stack);
+            a += pop (stack);
+            push (stack, a);
+            return 0;
         case '0':
         case '1':
         case '2':
