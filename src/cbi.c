@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAKE_PRINT(X) X = (X < 0x20) ? 0x20 : X
+
 int main (int argc, char **argv) {
     char *filename; 
     if (argc < 2) {
@@ -30,16 +32,6 @@ int main (int argc, char **argv) {
     char current_read = 0;
 
     while ((current_read = fgetc (in)) != EOF) {
-        if (current_read == '\n') {
-            num_lines++;
-            printf ("%i\n", num_lines);
-            instruction_space = (char**) realloc (instruction_space, sizeof (char*) * num_lines);
-            *(instruction_space + (num_lines - 1)) = (char*) calloc (num_cols, 1);
-            pos_row++;
-            pos_col = 0;
-            continue;
-        }
-
         if (pos_col == num_cols) {
             num_cols++;
             for (int row = 0; row < num_lines; row++) {
@@ -49,11 +41,22 @@ int main (int argc, char **argv) {
 
         *(*(instruction_space + pos_row) + pos_col) = current_read;
         pos_col++;
+
+        if (current_read == '\n') {
+            num_lines++;
+            //printf ("%i\n", num_lines);
+            instruction_space = (char**) realloc (instruction_space, sizeof (char*) * num_lines);
+            *(instruction_space + (num_lines - 1)) = (char*) calloc (num_cols, 1);
+            pos_row++;
+            pos_col = 0;
+        }
     }
-    
+
+    // Make nonprintables whitespace
     for (int r = 0; r < num_lines; r++) {
         for (int c = 0; c < num_cols; c++) {
-            printf ("%c", *(*(instruction_space + r) + c));
+            MAKE_PRINT(*(*(instruction_space + r) + c));
+            //printf ("0x%02X ", *(*(instruction_space + r) + c));
         }
         printf ("\n");
     }
