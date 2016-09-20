@@ -8,7 +8,9 @@
 #define MAKE_PRINT(X) X = (X < 0x20) ? 0x20 : X
 
 int main (int argc, char **argv) {
+    // Load file
     char *filename; 
+    // File not in args
     if (argc < 2) {
         printf ("Please include a file name\n");
         return -1;
@@ -18,20 +20,26 @@ int main (int argc, char **argv) {
     }
 
     FILE *in = fopen (filename, "r");
+    // File not found
     if (!in) {
         printf ("File not found: %s\n", filename);
         free (filename);
         return -1;
     }
 
+    // Initialize the instruction space to be a single spot
     int num_lines = 1, num_cols = 1;
     int pos_row = 0, pos_col = 0;
     char **instruction_space = (char**) malloc (sizeof (char*));
     *(instruction_space + 0) = (char*) calloc (1, 1);
 
+    // Each char is read into here
+    // Used for testing the char
     char current_read = 0;
 
+    // Reads until the end of the file
     while ((current_read = fgetc (in)) != EOF) {
+        // If we have a line longer than the previous max, extend them all out one
         if (pos_col == num_cols) {
             num_cols++;
             for (int row = 0; row < num_lines; row++) {
@@ -39,9 +47,11 @@ int main (int argc, char **argv) {
             }
         }
 
+        // Add the instruction into the instruction space
         *(*(instruction_space + pos_row) + pos_col) = current_read;
         pos_col++;
 
+        // If there is a newline, add a new row
         if (current_read == '\n') {
             num_lines++;
             //printf ("%i\n", num_lines);
@@ -61,6 +71,7 @@ int main (int argc, char **argv) {
         printf ("\n");
     }
 
+    // Release everything from memory
     fclose (in);
 
     free (filename);
