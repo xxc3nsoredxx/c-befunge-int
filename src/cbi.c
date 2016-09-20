@@ -4,12 +4,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "stack.h"
 
 #define MAKE_PRINT(X) X = (X < 0x20) ? 0x20 : X
 
 int main (int argc, char **argv) {
-    // Load file
     char *filename; 
+    FILE *in;
+    int num_lines, num_cols;
+    int pos_row, pos_col;
+    char **instruction_space;
+    char current_read;
+    stack_t *stack;
+
+    // Load file
     // File not in args
     if (argc < 2) {
         printf ("Please include a file name\n");
@@ -19,7 +27,7 @@ int main (int argc, char **argv) {
         filename = *(argv + 1);
     }
 
-    FILE *in = fopen (filename, "r");
+    in = fopen (filename, "r");
     // File not found
     if (!in) {
         printf ("File not found: %s\n", filename);
@@ -28,14 +36,16 @@ int main (int argc, char **argv) {
     }
 
     // Initialize the instruction space to be a single spot
-    int num_lines = 1, num_cols = 1;
-    int pos_row = 0, pos_col = 0;
-    char **instruction_space = (char**) malloc (sizeof (char*));
-    *(instruction_space + 0) = (char*) calloc (1, 1);
+    num_lines = 1;
+    num_cols = 1;
+    pos_row = 0;
+    pos_col = 0;
+    instruction_space = (char**) malloc (sizeof (char*));
+    *(instruction_space + 0) = (char*) calloc (num_cols, 1);
 
     // Each char is read into here
     // Used for testing the char
-    char current_read = 0;
+    current_read = 0;
 
     // Reads until the end of the file
     while ((current_read = fgetc (in)) != EOF) {
@@ -68,8 +78,11 @@ int main (int argc, char **argv) {
             MAKE_PRINT(*(*(instruction_space + r) + c));
             //printf ("0x%02X ", *(*(instruction_space + r) + c));
         }
-        printf ("\n");
+        //printf ("\n");
     }
+
+    // Initialize stack
+    stack = init ();
 
     // Release everything from memory
     fclose (in);
@@ -79,6 +92,9 @@ int main (int argc, char **argv) {
         free (*(instruction_space + cx));
     }
     free (instruction_space);
+
+    clear (stack);
+    free (stack);
 
     return 0;
 }
