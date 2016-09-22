@@ -34,9 +34,6 @@ bool push (stack_t *s, const char value) {
     return true;
 }
 
-
-// FIX---------------------------------------
-
 // Pop value from stack
 // Returns 0 if popping an empty stack
 char pop (stack_t *s) {
