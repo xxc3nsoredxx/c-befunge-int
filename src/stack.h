@@ -6,7 +6,7 @@ typedef enum bool_e {
 } bool;
 
 typedef struct stack_entry_s {
-    char value;
+    int value;
     struct stack_entry_s *next;
 } stack_entry_t;
 
@@ -16,8 +16,8 @@ typedef struct stack_s {
 } stack_t;
 
 stack_t* init ();
-bool push (stack_t*, char);
-char pop (stack_t*);
+bool push (stack_t*, int);
+int pop (stack_t*);
 bool clear (stack_t*);
 
 #endif

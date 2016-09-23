@@ -17,9 +17,10 @@ typedef enum ascii_mode_e {
     OFF, SINGLE, MULTI
 } ascii_mode_t;
 
-ascii_mode_t ascii_mode = OFF;
-
 int parse_command (char command, stack_t *stack, delta_t *delta) {
+    static ascii_mode_t ascii_mode = OFF;
+    static int repeat = 1;
+
     if (ascii_mode == SINGLE) {
         push (stack, (int) command);
         ascii_mode = OFF;
@@ -37,66 +38,75 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
 
     (void) delta;
     int a = 0;
-    switch (command) {
-        case '+':
-            a += pop (stack);
-            a += pop (stack);
-            push (stack, a);
-            return 0;
-        case '-':
-            a -= pop (stack);
-            a += pop (stack);
-            push (stack, a);
-            return 0;
-        case '*':
-            a += pop (stack);
-            a *= pop (stack);
-            push (stack, a);
-            return 0;
-        case '/':
-            a += pop (stack);
-            if (a == 0) {
-                printf ("Error: division by zero.\n");
+    for (int cx = 0; cx < repeat; cx++) {
+        switch (command) {
+            case '+':
+                a += pop (stack);
+                a += pop (stack);
+                push (stack, a);
+                break;
+            case '-':
+                a -= pop (stack);
+                a += pop (stack);
+                push (stack, a);
+                break;
+            case '*':
+                a += pop (stack);
+                a *= pop (stack);
+                push (stack, a);
+                break;
+            case '/':
+                a += pop (stack);
+                if (a == 0) {
+                    printf ("Error: division by zero.\n");
+                    return 1;
+                }
+                a = pop (stack) / a;
+                push (stack, a);
+                break;
+            case '\'':
+                ascii_mode = SINGLE;
+                break;
+            case '\"':
+                ascii_mode = MULTI;
+                break;
+            case '.':
+                printf ("%i", pop (stack));
+                break;
+            case ',':
+                printf ("%c", (char) pop (stack));
+                break;
+            case 'k':
+                repeat = pop (stack);
+                return 0;
+            case '@':
                 return 1;
-            }
-            a = pop (stack) / a;
-            push (stack, a);
-            return 0;
-        case '\'':
-            ascii_mode = SINGLE;
-            return 0;
-        case '\"':
-            ascii_mode = MULTI;
-            return 0;
-        case '.':
-            printf ("%i", pop (stack));
-            return 0;
-        case ',':
-            printf ("%c", (char) pop (stack));
-            return 0;
-        case '@':
-            return 1;
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-        case 'a':
-        case 'b':
-        case 'c':
-        case 'd':
-        case 'e':
-        case 'f':
-            push (stack, NUM(command));
-            return 0;
-        default:
-            return 0;
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+                push (stack, NUM(command));
+                break;
+            default:
+                break;
+        }
     }
+
+    repeat = 1;
+
+    return 0;
 }
 
 int main (int argc, char **argv) {

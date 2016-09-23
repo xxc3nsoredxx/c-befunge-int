@@ -15,7 +15,7 @@ stack_t* init () {
 }
 
 // Push value onto stack
-bool push (stack_t *s, const char value) {
+bool push (stack_t *s, int value) {
     stack_entry_t *temp = (stack_entry_t*) malloc (sizeof (stack_entry_t));
     
     if (s->top == 0) {
@@ -36,8 +36,8 @@ bool push (stack_t *s, const char value) {
 
 // Pop value from stack
 // Returns 0 if popping an empty stack
-char pop (stack_t *s) {
-    char ret = s->top->value;
+int pop (stack_t *s) {
+    int ret = s->top->value;
     
     // If the current top of the stack is the only member, reset values
     // Else set the top of the stack to the next one and free the old top
