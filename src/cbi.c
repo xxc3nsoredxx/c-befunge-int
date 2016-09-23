@@ -4,14 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "delta.h"
 #include "stack.h"
 
 #define MAKE_PRINT(X) X = (X < 0x20) ? 0x20 : X
 #define NUM(X) (((X) <= 0x39) ? (X) - 0x30 : 10 + (X) - 0x61)
-
-typedef enum delta_e {
-    LEFT, RIGHT, UP, DOWN
-} delta_t;
 
 typedef enum ascii_mode_e {
     OFF, SINGLE, MULTI
@@ -36,7 +33,6 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
         return 0;
     }
 
-    (void) delta;
     int a = 0;
     for (int cx = 0; cx < repeat; cx++) {
         switch (command) {
@@ -102,6 +98,18 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
             case 'k':
                 repeat = pop (stack);
                 return 0;
+            case '^':
+                up (delta);
+                break;
+            case 'v':
+                down (delta);
+                break;
+            case '<':
+                left (delta);
+                break;
+            case '>':
+                right (delta);
+                break;
             case '@':
                 return 1;
             default:
@@ -192,30 +200,15 @@ int main (int argc, char **argv) {
     stack = init ();
 
     // Set up the delta
-    delta = RIGHT;
+    delta.delta_x = 1;
+    delta.delta_y = 0;
     pos_row = 0;
     pos_col = 0;
 
     // Run through instruction space
     while (!(parse_command (*(*(instruction_space + pos_row) + pos_col), stack, &delta))) {
-        switch (delta) {
-            case LEFT:
-                pos_col--;
-                if (pos_col < 0) pos_col = num_cols - 1;
-                break;
-            case RIGHT:
-                pos_col++;
-                if (pos_col == num_cols) pos_col = 0;
-                break;
-            case UP:
-                pos_row--;
-                if (pos_row < 0) pos_row = num_rows - 1;
-                break;
-            case DOWN:
-                pos_row++;
-                if (pos_row == num_rows) pos_row = 0;
-                break;
-        }
+        pos_col += delta.delta_x;
+        pos_row += delta.delta_y;
     }
 
     // Release everything from memory

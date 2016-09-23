@@ -15,4 +15,8 @@
 | ,       | pop ascii value from stack and print                         |
 | :       | duplicate the top of the stack                               |
 | k       | pop n, repeat next command n times                           |
+| ^       | set instruction pointer delta to (0, 1)                      |
+| v       | set instruction pointer delta to (0, -1)                     |
+| <       | set instruction pointer delta to (-1, 0)                     |
+| >       | set instruction pointer delta to (1, 0)                      |
 | @       | halt                                                         |
