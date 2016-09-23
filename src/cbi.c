@@ -40,6 +40,24 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
     int a = 0;
     for (int cx = 0; cx < repeat; cx++) {
         switch (command) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+                push (stack, NUM(command));
+                break;
             case '+':
                 a += pop (stack);
                 a += pop (stack);
@@ -76,29 +94,16 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
             case ',':
                 printf ("%c", (char) pop (stack));
                 break;
+            case ':':
+                a += pop (stack);
+                push (stack, a);
+                push (stack, a);
+                break;
             case 'k':
                 repeat = pop (stack);
                 return 0;
             case '@':
                 return 1;
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'e':
-            case 'f':
-                push (stack, NUM(command));
-                break;
             default:
                 break;
         }
