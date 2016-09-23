@@ -41,6 +41,14 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
             a = pop (stack) / a;
             push (stack, a);
             return 0;
+        case '.':
+            printf ("%i", pop (stack));
+            return 0;
+        case ',':
+            printf ("%c", (char) pop (stack));
+            return 1;
+        case '@':
+            return 1;
         case '0':
         case '1':
         case '2':
@@ -59,11 +67,6 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
         case 'f':
             push (stack, NUM(command));
             return 0;
-        case '.':
-            printf ("%i", pop (stack));
-            return 0;
-        case '@':
-            return 1;
         default:
             return 0;
     }
