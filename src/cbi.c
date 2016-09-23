@@ -27,6 +27,20 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
             a += pop (stack);
             push (stack, a);
             return 0;
+        case '*':
+            a += pop (stack);
+            a *= pop (stack);
+            push (stack, a);
+            return 0;
+        case '/':
+            a += pop (stack);
+            if (a == 0) {
+                printf ("Error: division by zero.\n");
+                return 1;
+            }
+            a = pop (stack) / a;
+            push (stack, a);
+            return 0;
         case '0':
         case '1':
         case '2':
