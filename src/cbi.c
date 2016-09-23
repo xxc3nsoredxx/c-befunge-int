@@ -209,6 +209,10 @@ int main (int argc, char **argv) {
     while (!(parse_command (*(*(instruction_space + pos_row) + pos_col), stack, &delta))) {
         pos_col += delta.delta_x;
         pos_row += delta.delta_y;
+        if (pos_col < 0) pos_col = num_cols - 1;
+        if (pos_col == num_cols) pos_col = 0;
+        if (pos_row < 0) pos_row = num_rows - 1;
+        if (pos_row == num_rows) pos_row = 0;
     }
 
     // Release everything from memory
