@@ -13,7 +13,28 @@ typedef enum delta_e {
     LEFT, RIGHT, UP, DOWN
 } delta_t;
 
+typedef enum ascii_mode_e {
+    OFF, SINGLE, MULTI
+} ascii_mode_t;
+
+ascii_mode_t ascii_mode = OFF;
+
 int parse_command (char command, stack_t *stack, delta_t *delta) {
+    if (ascii_mode == SINGLE) {
+        push (stack, (int) command);
+        ascii_mode = OFF;
+        return 0;
+    }
+
+    if (ascii_mode == MULTI) {
+        if (command == '\"') {
+            ascii_mode = OFF;
+            return 0;
+        }
+        push (stack, (int) command);
+        return 0;
+    }
+
     (void) delta;
     int a = 0;
     switch (command) {
@@ -41,12 +62,18 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
             a = pop (stack) / a;
             push (stack, a);
             return 0;
+        case '\'':
+            ascii_mode = SINGLE;
+            return 0;
+        case '\"':
+            ascii_mode = MULTI;
+            return 0;
         case '.':
             printf ("%i", pop (stack));
             return 0;
         case ',':
             printf ("%c", (char) pop (stack));
-            return 1;
+            return 0;
         case '@':
             return 1;
         case '0':
