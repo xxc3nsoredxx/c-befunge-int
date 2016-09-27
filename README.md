@@ -19,4 +19,5 @@
 | v       | set instruction pointer delta to (0, -1)                     |
 | <       | set instruction pointer delta to (-1, 0)                     |
 | >       | set instruction pointer delta to (1, 0)                      |
+| r       | reverses the instruction pointer delta                       |
 | @       | halt                                                         |

@@ -18,6 +18,7 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
     static ascii_mode_t ascii_mode = OFF;
     static int repeat = 1;
 
+    //printf ("%i %i\n", delta->delta_x, delta->delta_y);
     if (ascii_mode == SINGLE) {
         push (stack, (int) command);
         ascii_mode = OFF;
@@ -109,6 +110,15 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
                 break;
             case '>':
                 right (delta);
+                break;
+            case '[':
+                rel_left (delta);
+                break;
+            case ']':
+                rel_right (delta);
+                break;
+            case 'r':
+                reflect (delta);
                 break;
             case '@':
                 return 1;
@@ -207,6 +217,7 @@ int main (int argc, char **argv) {
 
     // Run through instruction space
     while (!(parse_command (*(*(instruction_space + pos_row) + pos_col), stack, &delta))) {
+        //printf ("%c\n", *(*(instruction_space + pos_row) + pos_col));
         pos_col += delta.delta_x;
         pos_row += delta.delta_y;
         if (pos_col < 0) pos_col = num_cols - 1;
