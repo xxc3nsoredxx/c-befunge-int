@@ -9,6 +9,7 @@
 
 #define MAKE_PRINT(X) X = (X < 0x20) ? 0x20 : X
 #define NUM(X) (((X) <= 0x39) ? (X) - 0x30 : 10 + (X) - 0x61)
+#define ABS(X) (((X) < 0) ? (-(X)) : (X))
 
 typedef enum ascii_mode_e {
     OFF, SINGLE, MULTI
@@ -17,6 +18,25 @@ typedef enum ascii_mode_e {
 int parse_command (char command, stack_t *stack, delta_t *delta) {
     static ascii_mode_t ascii_mode = OFF;
     static int repeat = 1;
+    static int skip_num = 0;
+    static int toggle_exec = 0;
+    static int jumping_back = 0;
+
+    // Work on skipping backwards
+    if (skip_num > 0) {
+        skip_num--;
+        return 0;
+    }
+
+    if (jumping_back) {
+        reflect (delta);
+        jumping_back = 0;
+    }
+
+    if (toggle_exec) {
+        if (command == ';') toggle_exec = 0;
+        return 0;
+    }
 
     //printf ("%i %i\n", delta->delta_x, delta->delta_y);
     if (ascii_mode == SINGLE) {
@@ -119,6 +139,20 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
                 break;
             case 'r':
                 reflect (delta);
+                break;
+            case '#':
+                skip_num = 1;
+                break;
+            case 'j':
+                skip_num = pop (stack);
+                if (skip_num < 0) {
+                    reflect (delta);
+                    skip_num = ABS(skip_num);
+                    skip_num -= 2;
+                }
+                break;
+            case ';':
+                toggle_exec = 1;
                 break;
             case '@':
                 return 1;

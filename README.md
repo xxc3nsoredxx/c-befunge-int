@@ -19,5 +19,9 @@
 | v       | set instruction pointer delta to (0, -1)                     |
 | <       | set instruction pointer delta to (-1, 0)                     |
 | >       | set instruction pointer delta to (1, 0)                      |
+| [       | turn the instruction pointer left relative to direction      |
+| ]       | turn the instruction pointer right relative to direction     |
 | r       | reverses the instruction pointer delta                       |
+| #       | jumps over the next cell                                     |
+| j       | pop n, jump over the n next cells                            |
 | @       | halt                                                         |
