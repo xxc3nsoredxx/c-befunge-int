@@ -22,7 +22,6 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
     static int toggle_exec = 0;
     static int jumping_back = 0;
 
-    // Work on skipping backwards
     if (skip_num > 0) {
         skip_num--;
         return 0;
@@ -76,22 +75,23 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
                 push (stack, NUM(command));
                 break;
             case '+':
-                a += pop (stack);
+                a = pop (stack);
                 a += pop (stack);
                 push (stack, a);
                 break;
             case '-':
-                a -= pop (stack);
+                a = pop (stack);
+                a = -a;
                 a += pop (stack);
                 push (stack, a);
                 break;
             case '*':
-                a += pop (stack);
+                a = pop (stack);
                 a *= pop (stack);
                 push (stack, a);
                 break;
             case '/':
-                a += pop (stack);
+                a = pop (stack);
                 if (a == 0) {
                     printf ("Error: division by zero.\n");
                     return 1;
@@ -118,6 +118,7 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
                 break;
             case 'k':
                 repeat = pop (stack);
+                repeat += (repeat > 0) ? 1 : 0;
                 return 0;
             case '^':
                 up (delta);
