@@ -144,6 +144,9 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
             case '#':
                 skip_num = 1;
                 break;
+            case ';':
+                toggle_exec = 1;
+                break;
             case 'j':
                 skip_num = pop (stack);
                 if (skip_num < 0) {
@@ -151,9 +154,6 @@ int parse_command (char command, stack_t *stack, delta_t *delta) {
                     skip_num = ABS(skip_num);
                     skip_num -= 2;
                 }
-                break;
-            case ';':
-                toggle_exec = 1;
                 break;
             case '@':
                 return 1;

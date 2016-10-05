@@ -23,5 +23,6 @@
 | ]       | turn the instruction pointer right relative to direction     |
 | r       | reverses the instruction pointer delta                       |
 | #       | jumps over the next cell                                     |
+| ;       | turns off execution until next ;                             |
 | j       | pop n, jump over the n next cells                            |
 | @       | halt                                                         |
