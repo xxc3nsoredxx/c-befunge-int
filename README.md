@@ -1,5 +1,13 @@
 # C Befunge Interpreter
 
+This Befunge interpreter has full support for Befunge-93. I plan on adding support for Befunge-98.
+
+Extra Features:
+    
+    * Support for an instruction space of arbitrary size
+
+    * Allows pushing hex digits as integers
+
 ## Supported Commands
 
 | Command | Description                                                         |
