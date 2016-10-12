@@ -29,7 +29,7 @@
 | r       | reverses the instruction pointer delta                              |
 | ?       | sets the instruction pointer to a random dirction                   |
 | _       | horizontal if, pop a, if a = 0, move right, else move left          |
-| |       | vertical if, pop a, if a = 0, move down, else move  up              |
+| \|      | vertical if, pop a, if a = 0, move down, else move  up              |
 | #       | jumps over the next cell                                            |
 | ;       | turns off execution until next ;                                    |
 | j       | pop n, jump over the n next cells                                   |
