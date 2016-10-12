@@ -2,11 +2,19 @@
 
 This Befunge interpreter has full support for Befunge-93. I plan on adding support for Befunge-98.
 
-Extra Features:
+Extra Non-93 Features:
     
     * Support for an instruction space of arbitrary size
 
     * Allows pushing hex digits as integers
+
+    * Allows turning the instruction pointer relative to the current direction
+
+    * Allows repeating commands
+
+    * Continuous skipping
+
+    * Skipping n cells
 
 ## Supported Commands
 
