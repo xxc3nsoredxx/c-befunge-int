@@ -9,7 +9,7 @@ cbi_win : $(OBJS)
 cbi_linux : $(OBJS)
 	$(CC) $(LFLAGS) $(OBJS) -o cbi
 
-cbi.o : cbi.c stack.h delta.h
+cbi.o : cbi.c cbi.h stack.h delta.h
 	$(CC) $(CFLAGS) cbi.c
 
 stack.o : stack.c stack.h
