@@ -299,6 +299,7 @@ int main (int argc, char **argv) {
             (is->num_cols)++;
             for (int row = 0; row < is->num_rows; row++) {
                 *((is->space) + row) = (char*) realloc (*((is->space) + row), is->num_cols);
+                *(*((is->space) + row) + pos_col) = 0x00;
             }
         }
 

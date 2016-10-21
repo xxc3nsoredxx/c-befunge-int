@@ -3,7 +3,7 @@
 
 #include "delta.h"
 
-#define MAKE_PRINT(X) X = (X < 0x20) ? 0x20 : X
+#define MAKE_PRINT(X) (X) = (((X) < 0x20 || (X) > 0x7E) ? 0x20 : (X))
 #define NUM(X) (((X) <= 0x39) ? (X) - 0x30 : 10 + (X) - 0x61)
 #define ABS(X) (((X) < 0) ? (-(X)) : (X))
 
