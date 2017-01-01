@@ -1,6 +1,6 @@
 OBJS = cbi.o stack.o delta.o
 CC = gcc
-LFLAGS = -Wall -Wextra -std=c99 -g
+LFLAGS = -Wall -Wextra -std=c99
 CFLAGS = $(LFLAGS) -c
 
 cbi_win : $(OBJS)

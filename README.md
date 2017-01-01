@@ -59,6 +59,20 @@ Extra Non-93 Features:
 
     cbi <befunge source>
 
+## To Compile
+
+To compile "as is" requies gcc. Windows users can use MinGW (tested) or possibly Cygwin (untested). If you use a different compiler than gcc, you can either tweak the makefile or just compile directly from the command line.
+
+### Windows (MinGW32 example, may be slightly different)
+
+    cd src
+    mingw32-make win
+
+### Linux
+
+    cd src
+    make linux
+
 ## Example Programs
 
 | Source File | Description                       |
