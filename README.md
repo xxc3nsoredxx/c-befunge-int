@@ -1,20 +1,20 @@
 # C Befunge Interpreter
 
-This Befunge interpreter has full support for Befunge-93. I plan on adding support for Befunge-98.
+This Befunge interpreter has full support for Befunge-93.
 
 Extra Non-93 Features:
     
-    * Support for an instruction space of arbitrary size
+* Support for an instruction space of arbitrary size
 
-    * Allows pushing hex digits as integers
+* Allows pushing hex digits (0-f) as integers
 
-    * Allows turning the instruction pointer relative to the current direction
+* Allows turning the instruction pointer relative to the current direction
 
-    * Allows repeating commands
+* Allows repeating commands
 
-    * Continuous skipping
+* Continuous skipping
 
-    * Skipping n cells
+* Skipping n cells
 
 ## Supported Commands
 
@@ -54,3 +54,18 @@ Extra Non-93 Features:
 | g       | pop y, x and push the character in the position (x, y), else push 0 |
 | p       | pop y, x, a and push the ascii value a into the position (x, y)     |
 | @       | halt                                                                |
+
+## Usage
+
+    cbi <befunge source>
+
+## Example Programs
+
+| Source File | Description                       |
+| ----------- | --------------------------------- |
+| calc.bf     | A REPL for Befunge math operators |
+| hw.bf       | Hello World                       |
+
+## TODO
+
+Add more example programs. Feel free to submit your own and I will merge them in after testing to make sure they work.
