@@ -35,7 +35,7 @@ Extra Non-93 Features:
 | :       | duplicate the top of the stack                                      |
 | \       | swap the top two values on the stack                                |
 | $       | discard the top value on the stack                                  |
-| k       | pop n, repeat next command n times                                  |
+| k       | pop n, run next command n + 1 times                                 |
 | ^       | set instruction pointer delta to (0, 1)                             |
 | v       | set instruction pointer delta to (0, -1)                            |
 | <       | set instruction pointer delta to (-1, 0)                            |
